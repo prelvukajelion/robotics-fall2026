@@ -17,7 +17,7 @@ def check(label,passed,detail,recovery):
 
 def package_check(name):
     try:
-        done=subprocess.run(['ros2','pkg','prefix',name],capture_output=True,text=True,timeout=3)
+        done=subprocess.run(['ros2','pkg','prefix',name],capture_output=True,text=True,timeout=10)
         passed=done.returncode==0
     except (OSError,subprocess.TimeoutExpired): passed=False
     return check('Package: '+name,passed,'Available' if passed else 'Not found','Run the setup/build command in this page, then source the workspace.')
@@ -45,7 +45,8 @@ def live_checks():
         while time.monotonic()<deadline: rclpy.spin_once(node,timeout_sec=.1)
         guard=any(i.node_name=='course_cmd_vel_guard' for i in node.get_subscriptions_info_by_topic('/student_cmd_vel'))
         guard=guard and any(i.node_name=='course_cmd_vel_guard' and i.topic_type=='geometry_msgs/msg/TwistStamped' for i in node.get_publishers_info_by_topic('/cmd_vel'))
-        transforms=all(buffer.can_transform(target,source,Time()) for target,source in (('odom','base_link'),('base_link','base_scan')))
+        transforms=all(buffer.can_transform(target,source,Time()) for target,source in (
+            ('odom','base_link'),('base_link','base_scan'),('base_link','rear_camera_link'),('base_link','hall_camera')))
         passed=(len(clocks)>1 and clocks[-1]>clocks[0],len(odometry)>1,guard,transforms)
         return [check(n,p,'Observed during this check' if p else 'Not observed',repair) for n,p in zip(names,passed)]
     finally:
@@ -59,8 +60,8 @@ def main():
     checks=[check('ROS distribution',os.environ.get('ROS_DISTRO')=='jazzy',os.environ.get('ROS_DISTRO','not sourced'),'Source /opt/ros/jazzy/setup.bash.'),
             check('ROS domain',os.environ.get('ROS_DOMAIN_ID')=='25',os.environ.get('ROS_DOMAIN_ID','not set'),'Use export ROS_DOMAIN_ID=25 in each ROS terminal.'),
             check('Evidence storage',writable,str(out),'Check permissions on the cloned lab folder.')]
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        checks.extend(pool.map(package_check,('turtlebot3_gazebo','tf2_ros','tf2_tools','course_cmd_vel_guard','course_motion_tools','week03_pattern')))
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        checks.extend(pool.map(package_check,('turtlebot3_gazebo','tf2_ros','tf2_tools','course_cmd_vel_guard','course_motion_tools','week03_camera_transform','week03_pattern')))
     if '--setup' not in sys.argv: checks.extend(live_checks())
     payload={'schema_version':2,'captured_at':datetime.now(timezone.utc).isoformat(),'scope':'setup' if '--setup' in sys.argv else 'live',
              'checks':checks,'ready':all(c['passed'] for c in checks)}

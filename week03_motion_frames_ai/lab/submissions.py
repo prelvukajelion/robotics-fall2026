@@ -64,6 +64,18 @@ def snapshot_pattern_source() -> Path:
     return target
 
 
+def snapshot_camera_source() -> Path:
+    source=ROOT/"ros2_ws/src/week03_camera_transform"
+    target=submission_root()/"mission_2"/"source";target.mkdir(parents=True,exist_ok=True)
+    for relative in ("package.xml","setup.py","setup.cfg","week03_camera_transform/camera_transform.py"):
+        path=source/relative
+        if path.exists():
+            destination=target/relative;destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,destination)
+    for path in (source/"week03_camera_transform").rglob("*.py"):
+        destination=target/path.relative_to(source);destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,destination)
+    return target
+
+
 def write_manifest(st) -> Path:
     root = submission_root()
     root.mkdir(parents=True, exist_ok=True)

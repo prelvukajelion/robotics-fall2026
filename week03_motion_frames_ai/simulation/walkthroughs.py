@@ -19,6 +19,10 @@ def forward_command(elapsed, speed=0.2, duration=3.0):
     """Return (forward m/s, turning rad/s) for a periodic ROS publisher."""
     if not (0.0 <= speed <= 0.22):
         raise ValueError("Speed outside course limits")
+    if not math.isfinite(duration) or duration <= 0:
+        raise ValueError("Duration must be positive and finite")
+    if not math.isfinite(elapsed) or elapsed < 0:
+        raise ValueError("Elapsed time must be nonnegative and finite")
     if elapsed >= duration:
         return 0.0, 0.0
     return speed, 0.0

@@ -10,6 +10,7 @@ from lab_config import LAB
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CONTENT_VERSION = 2
 
 
 def submission_root() -> Path:
@@ -41,6 +42,7 @@ def _atomic(path: Path, text: str) -> None:
 def save(st) -> Path:
     payload = {
         "schema_version": 1,
+        "content_version": CONTENT_VERSION,
         "lab_id": LAB.id,
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "student": dict(st.session_state.get("student", {})),
@@ -78,6 +80,11 @@ def restore(st):
         return
     st.session_state['_progress_loaded']=True
     data=load_state()
+    if data and int(data.get('content_version',0))<CONTENT_VERSION:
+        responses=dict(data.get('responses',{}));responses.pop('walkthrough.completed',None)
+        data['responses']=responses;data['completed_missions']=[];data['checked_evidence_ids']={}
+        data['stage']='concepts';data['walkthrough_index']=0
+        data['recovery_note']='The Lab 3 activities were updated. Your written work was retained, but revised walkthroughs and missions must be checked again.'
     for key in ('responses','student','completed_missions','checked_evidence_ids','visited_stages'):
         if key in data:
             st.session_state[key]=data[key]

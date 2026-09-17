@@ -60,7 +60,7 @@ def write_final_reflection(st) -> Path:
     answer = str(st.session_state.get("responses", {}).get(RESPONSE_KEY, "")).strip()
     words = word_count(answer)
     if not 1 <= words <= MAX_WORDS:
-        raise ValueError("Final reflection must contain 1–300 words.")
+        raise ValueError("Final reflection must contain 1 to 300 words.")
     from lab.autosave import submission_root
     root = submission_root()
     root.mkdir(parents=True, exist_ok=True)

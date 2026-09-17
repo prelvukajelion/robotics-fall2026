@@ -26,10 +26,17 @@ class StudentJourney(unittest.TestCase):
         from lab.submissions import submission_zip
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
-            for folder in ('lab','scripts','ros2_ws/src/week03_pattern'):
+            for folder in ('lab','scripts','ros2_ws/src/week03_pattern','ros2_ws/src/week03_camera_transform'):
                 shutil.copytree(LAB_ROOT/folder,root/folder,ignore=shutil.ignore_patterns('__pycache__'))
             shutil.copy2(LAB_ROOT/'lab_config.py',root/'lab_config.py')
             package=root/'ros2_ws/src/week03_pattern'
+            camera_package=root/'ros2_ws/src/week03_camera_transform'
+            camera_source=camera_package/'week03_camera_transform/camera_transform.py'
+            camera_source.write_text('''def transform_camera_point(tf_buffer,point):
+    if point.header.frame_id != "hall_camera": raise ValueError("wrong source")
+    try: return tf_buffer.transform(point,"base_link")
+    except Exception: return None
+''',encoding='utf-8')
             # Test-only reference implementation; real starter remains unfinished.
             pattern=package/'week03_pattern/pattern.py'
             pattern.write_text('''import math
@@ -57,7 +64,7 @@ class StudentTests(unittest.TestCase):
     def test_stop(self):
         s=build_pattern(os.environ['WEEK03_ASSIGNED_PATTERN']);self.assertEqual(command_at(s,sum(x.duration for x in s)),(0,0))
 ''',encoding='utf-8')
-            with patch('lab.autosave.ROOT',root),patch('lab.submissions.ROOT',root),patch('lab.evidence.ROOT',root),patch('lab.completion.SOURCE_ROOT',package),patch('pages.mission_3.SOURCE_ROOT',package):
+            with patch('lab.autosave.ROOT',root),patch('lab.submissions.ROOT',root),patch('lab.evidence.ROOT',root),patch('lab.completion.SOURCE_ROOT',package),patch('lab.completion.CAMERA_SOURCE',camera_source),patch('pages.mission_2.SOURCE',camera_source),patch('pages.mission_3.SOURCE_ROOT',package):
                 app=AppTest.from_string('from app import run_streamlit_app\nrun_streamlit_app()',default_timeout=30).run()
                 def click(label):
                     button=next(b for b in app.button if b.label==label)
@@ -68,8 +75,8 @@ class StudentTests(unittest.TestCase):
                 click('Begin')
                 for i,keys in enumerate((('forward','turn','arc','stop'),('equal','left_turn','right_turn','opposite'),(),('ideal_measure','changed_measure'),())):
                     for key in keys: app.button(key=key).click().run()
-                    if i==2: app.slider[2].set_value(0).run()
-                    if i==4: click('Inspect the example');click('Run the decision tests')
+                    if i==2: app.slider[0].set_value(-.8).run();click('Use reference snapshot for this walkthrough')
+                    if i==4: click('Inspect the proposed code');click('Run the decision and boundary tests')
                     click('Mark reviewed')
                     if i<4: click('Next walkthrough')
                 click('Continue to environment preflight')
@@ -81,11 +88,19 @@ class StudentTests(unittest.TestCase):
                     fill('m1.description.'+name,'My original predicted path and orientation.')
                     click('Save prediction');app.button(key='model.'+name).click().run()
                     fill('m1.mission_1.compare.'+name,'The imposed speed change explains the modeled difference.')
+                    if name!='arc': click('Save analysis and continue')
                 for key in mission_1.REFLECTIONS: fill('m1.mission_1.'+key,'My explanation and a measurable criterion using evidence.')
                 click('Check and save Mission 1');click('Continue to Mission 2')
-                click('Use reference snapshot');click('View heading 0°');click('View heading 90°')
-                app.number_input[1].set_value(-1).run();click('Check my transformation');click('Show the wrong destination')
-                for key in mission_2.REFLECTIONS: fill('m2.'+key,'The frame and known-point test explain the expected result.')
+                click('Use reference frame evidence')
+                fill('m2.frame_context','The robot sensors remain rigid while the hallway camera stays in the environment.')
+                for key in ('initial_prompt','initial_output','initial_source'): fill('m2.'+key,'Preserved initial AI camera-transform content.')
+                click('Preserve initial AI response')
+                camera_result={'file_present':True,'source_sha256':mission_2.current_hash(camera_source),'unit_tests_passed':True,
+                               'test_count':5,'source_differs_from_original':True,'live_passed':False}
+                evidence=root/'runtime/evidence';evidence.mkdir(parents=True,exist_ok=True)
+                (evidence/'camera_evaluation.json').write_text(json.dumps(camera_result),encoding='utf-8')
+                for key in mission_2.REFLECTIONS[1:]: fill('m2.'+key,'The frame, AI revision, and test evidence explain the expected result and safe fallback.')
+                app.checkbox[0].check().run();fill('m2.live_issue','No simulator in this reference-route test.')
                 click('Check and save Mission 2');click('Continue to Mission 3')
                 fill('m3.specification','Sequence, speeds, stopping, and measurable expected results.');click('Save specification')
                 for key in ('original_prompt','original_output','original_source'): fill('m3.'+key,'Preserved original AI content before revision.')
@@ -96,7 +111,10 @@ class StudentTests(unittest.TestCase):
                 for key in mission_3.REFLECTIONS: fill('m3.'+key,'My documented review, revisions, tests, and limitations.')
                 app.checkbox[0].check().run();fill('m3.live_issue','No simulator; live path and stop are unverified.')
                 click('Check and save Mission 3');click('Continue to final submission')
-                self.assertTrue(all(mission_status(SimpleNamespace(session_state=app.session_state.filtered_state)).values()))
+                current_status=mission_status(SimpleNamespace(session_state=app.session_state))
+                self.assertTrue(all(current_status.values()),(current_status,app.session_state['checked_evidence_ids'],
+                    json.loads((root/'student_submission/mission_2/submission.json').read_text())['evidence']['evidence_id'],
+                    sorted(str(p.relative_to(root)) for p in (root/'student_submission/mission_2').rglob('*') if p.is_file())))
                 fill('final.synthesis.widget','A robot should communicate its intention and respect pedestrians. '*12)
                 fill('field.final.course_reflection','I learned to connect motion evidence with human expectations.')
                 click('Save reflection and update word count');click('Prepare submission')
@@ -107,8 +125,8 @@ class StudentTests(unittest.TestCase):
                 self.assertFalse(any(n.startswith('autosave/') for n in archive.namelist()))
                 resumed=AppTest.from_string('from app import run_streamlit_app\nrun_streamlit_app()',default_timeout=30).run()
                 self.assertEqual(resumed.session_state['stage'],'final');self.assertFalse(resumed.exception)
-                self.assertTrue(all(mission_status(SimpleNamespace(session_state=resumed.session_state.filtered_state)).values()))
+                self.assertTrue(all(mission_status(SimpleNamespace(session_state=resumed.session_state)).values()))
                 # Editing source must invalidate final readiness, even after restart.
                 pattern.write_text(pattern.read_text()+'\n# changed after evaluation\n')
-                resumed.run();self.assertFalse(mission_status(SimpleNamespace(session_state=resumed.session_state.filtered_state))['mission_3'])
+                resumed.run();self.assertFalse(mission_status(SimpleNamespace(session_state=resumed.session_state))['mission_3'])
                 self.assertTrue(next(b for b in resumed.button if b.label=='Prepare submission').disabled)

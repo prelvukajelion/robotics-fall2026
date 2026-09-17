@@ -1,5 +1,6 @@
 from __future__ import annotations
 import base64
+from io import BytesIO
 import math
 import uuid
 
@@ -21,6 +22,60 @@ DESCRIPTION = {
 }
 
 
+def drawing_background():
+    from PIL import Image, ImageDraw
+    image=Image.new("RGB",(600,360),"white");draw=ImageDraw.Draw(image)
+    for x in range(40,600,40): draw.line((x,0,x,360),fill="#dbe7ed",width=1)
+    for y in range(20,360,40): draw.line((0,y,600,y),fill="#dbe7ed",width=1)
+    origin=(160,260);draw.line((origin[0],origin[1],540,origin[1]),fill="#b33c36",width=3)
+    draw.line((origin[0],origin[1],origin[0],35),fill="#2457bb",width=3)
+    draw.polygon(((540,260),(525,253),(525,267)),fill="#b33c36")
+    draw.polygon(((160,35),(153,50),(167,50)),fill="#2457bb")
+    draw.text((545,246),"+x",fill="#b33c36");draw.text((170,30),"+y",fill="#2457bb")
+    draw.ellipse((150,250,170,270),fill="#087f80");draw.text((125,278),"start",fill="#15354a")
+    return image
+
+
+def sketch_editor(st):
+    st.write("Draw the predicted turn and forward segment. Include the turn direction and endpoint.")
+    try:
+        from streamlit_drawable_canvas import st_canvas
+        from PIL import Image
+        st.image(drawing_background(), caption="Reference grid: the robot starts at the origin facing +x", width=600)
+        st.caption("Use the blank canvas below to sketch the turn, forward segment, and endpoint. The reference grid is not copied into your drawing.")
+        mode=st.radio("Drawing tool",("freedraw","line"),format_func=lambda v:"Pen" if v=="freedraw" else "Straight line",horizontal=True)
+        version=st.session_state.setdefault("m1.sketch_version",0)
+        initial=st.session_state.get("m1.sketch_drawing")
+        result=st_canvas(fill_color="rgba(8,127,128,0.15)",stroke_width=4,stroke_color="#087f80",
+                         background_color="#ffffff",update_streamlit=True,height=360,width=600,
+                         drawing_mode=mode,initial_drawing=initial,key=f"m1.sketch_canvas.{version}")
+        left,middle,right=st.columns(3)
+        with left:
+            if st.button("Undo last stroke",key="m1.sketch_undo") and result.json_data:
+                drawing=dict(result.json_data);drawing["objects"]=list(drawing.get("objects",[]))[:-1]
+                st.session_state["m1.sketch_drawing"]=drawing;st.session_state["m1.sketch_version"]+=1;st.rerun()
+        with middle:
+            if st.button("Clear drawing",key="m1.sketch_clear"):
+                st.session_state["m1.sketch_drawing"]={"version":"4.4.0","objects":[]}
+                st.session_state["m1.sketch_version"]+=1;st.rerun()
+        with right:
+            if st.button("Save drawing",key="m1.sketch_save",disabled=result.image_data is None):
+                image=Image.fromarray(result.image_data.astype("uint8"),"RGBA");buffer=BytesIO();image.save(buffer,format="PNG")
+                set_response(st,"mission_1.sketch",{"mime":"image/png","data":base64.b64encode(buffer.getvalue()).decode("ascii"),"source":"canvas"})
+                if result.json_data: st.session_state["m1.sketch_drawing"]=result.json_data
+                st.rerun()
+    except (ImportError, TypeError):
+        st.warning("The drawing canvas is unavailable in this container. Use the image-upload fallback below.")
+    with st.expander("Upload a sketch instead"):
+        uploaded=st.file_uploader("Upload PNG or JPG, at most 3 MB",type=["png","jpg","jpeg"],key="m1.sketch_upload")
+        if uploaded and uploaded.size<=3_000_000:
+            if st.button("Save uploaded sketch"):
+                set_response(st,"mission_1.sketch",{"mime":uploaded.type,"data":base64.b64encode(uploaded.getvalue()).decode("ascii"),"source":"upload"});st.rerun()
+        elif uploaded: st.error("Choose an image smaller than 3 MB.")
+    if response(st,"mission_1.sketch"):
+        st.image(base64.b64decode(response(st,"mission_1.sketch")["data"]),caption="Saved prediction sketch",width=500)
+
+
 def answer(st, key, label, **kwargs):
     # Restore from autosave only when creating the widget, avoiding competing defaults.
     widget = f"m1.{key}"
@@ -39,25 +94,15 @@ def prediction_form(st, name, predictions):
         st.caption("Your original prediction is retained so you can explain what you learned.")
         return prior
     st.markdown("**Before running:** picture the path from (0, 0), facing +x. "
-                "Here +x is initially forward and +y is initially left. Heading starts at 0°.")
+                "Here +x is initially forward and +y is initially left. Heading starts at 0 radians.")
     if name == "straight":
         st.latex(r"d=vt")
         st.write("Multiply speed by duration for distance. With no turning, consider whether heading changes.")
     elif name == "turn_then_drive":
-        st.latex(r"\Delta\theta=\omega t,\qquad 180^\circ=\pi\ \mathrm{rad}")
+        st.latex(r"\Delta\theta=\omega t")
         st.write("First calculate the turn. Then draw the forward segment along the new heading. "
                  "Include the start arrow, turn direction, and endpoint in a sketch.")
-        uploaded = st.file_uploader("Upload your prediction sketch (PNG or JPG, at most 3 MB)",
-                                    type=["png","jpg","jpeg"], key="m1.sketch_upload")
-        if uploaded:
-            if uploaded.size > 3_000_000:
-                st.error("Choose an image smaller than 3 MB.")
-            else:
-                set_response(st, "mission_1.sketch", {"mime":uploaded.type,
-                    "data":base64.b64encode(uploaded.getvalue()).decode("ascii")})
-        if response(st, "mission_1.sketch"):
-            st.image(base64.b64decode(response(st,"mission_1.sketch")["data"]), caption="Your saved prediction sketch", width=320)
-        st.caption("You can draw on paper and upload a photo, or use a drawing app and save a PNG.")
+        sketch_editor(st)
     else:
         st.latex(r"\Delta\theta=\omega t,\qquad R=\frac{v}{\omega}")
         st.write("Predict left or right turning, describe the path shape, and estimate heading change. "
@@ -66,7 +111,7 @@ def prediction_form(st, name, predictions):
         description = st.text_area("Describe your predicted path and final orientation", key=f"m1.description.{name}")
         a, b = st.columns(2)
         with a:
-            heading = st.number_input("Predicted final heading (degrees)", value=0., step=5., key=f"m1.heading.{name}")
+            heading = st.number_input("Predicted final heading (radians)", value=0., step=.1, key=f"m1.heading.{name}")
         with b:
             distance = st.number_input("Predicted traveled path length (m)", min_value=0., value=0., step=.01, key=f"m1.distance.{name}")
         if name != "arc":
@@ -82,7 +127,7 @@ def prediction_form(st, name, predictions):
             st.warning("Add your sketch before saving this prediction.")
         else:
             prior = {"id":uuid.uuid4().hex,"saved_at":now(),"description":description,
-                     "x":x,"y":y,"theta":math.radians(heading),"path_length":distance}
+                     "x":x,"y":y,"theta":heading,"path_length":distance}
             predictions[name] = prior
             set_response(st,"mission_1.predictions",predictions)
             st.rerun()
@@ -99,8 +144,8 @@ def show_result(st, name, result, prediction):
         st.caption(result["model_description"])
     st.caption("Coordinates below are relative to this trial's starting pose. Positive y is to the left of the initial heading.")
     rows = []
-    for axis, label in (("x","Final x (m)"),("y","Final y (m)"),("theta","Heading (degrees)")):
-        factor = 180/math.pi if axis=="theta" else 1
+    for axis, label in (("x","Final x (m)"),("y","Final y (m)"),("theta","Heading (radians)")):
+        factor = 1
         pred = prediction.get(axis)
         difference = None if pred is None else observed[axis]-pred
         if difference is not None and axis=="theta":
@@ -128,8 +173,8 @@ def show_result(st, name, result, prediction):
                  "The table above rotates and translates them into a common starting reference.")
         st.json({"source":result["source"],"start":result.get("start_pose"),"end":result.get("end_pose"),
                  "frame":result.get("measurement_frame","model")})
-    answer(st, f"mission_1.compare.{name}",
-           "Compare your prediction with the result. Cite one difference, suggest a cause, and state what evidence would help check that cause.")
+    return answer(st, f"mission_1.compare.{name}",
+                  "Compare your prediction with the result. Cite one difference, suggest a cause, and state what evidence would help check that cause.")
 
 
 def render(st):
@@ -140,17 +185,19 @@ def render(st):
         st.write("If the simulator is already running from preflight, keep that launch open. Otherwise start it with the commands below. "
                  "Do not run teleoperation or another motion node during these trials.")
         st.code("cd /workspace/week03_motion_frames_ai\nexport ROS_DOMAIN_ID=25\nbash scripts/launch_lab.sh", language="bash")
-        st.write("Each live run requests the same starting location, then records its actual odometry pose. "
-                 "Predictions use (0, 0, 0°) relative to that starting pose, so they do not require Gazebo's "
-                 "absolute coordinates. Odometry estimates motion; it is not perfect ground truth.")
+        st.write("Each live run requests the same starting location, then records a ROS pose estimate. "
+                 "Predictions use (0, 0, 0 radians) relative to that starting pose, so they do not require "
+                 "Gazebo's absolute coordinates. The next lab examines how odometry produces this estimate.")
     predictions = dict(response(st,"mission_1.predictions",{}))
     selected = dict(response(st,"mission_1.results",{}))
     ready_count = sum(valid_run(selected.get(n),predictions.get(n)) for n in SEQUENCES)
     st.progress(ready_count/3,text=f"{ready_count}/3 trial results collected")
+    active=st.session_state.setdefault("mission_1.active_trial",next((n for n in SEQUENCES if not str(response(st,f"mission_1.compare.{n}","")).strip()),"arc"))
+    names=list(SEQUENCES)
     for i,name in enumerate(SEQUENCES):
         previous = list(SEQUENCES)[:i]
-        unlocked = all(valid_run(selected.get(n),predictions.get(n)) for n in previous)
-        with st.expander(f"Trial {i+1}: {TITLES[name]}", expanded=unlocked and name not in selected):
+        unlocked = all(valid_run(selected.get(n),predictions.get(n)) and str(response(st,f"mission_1.compare.{n}","")).strip() for n in previous)
+        with st.expander(f"Trial {i+1}: {TITLES[name]}", expanded=unlocked and name==active):
             if not unlocked:
                 st.info("Collect the preceding trial's result first.")
                 continue
@@ -186,22 +233,23 @@ def render(st):
                     set_response(st,"mission_1.attempts",history)
                     st.rerun()
             if name in selected:
-                show_result(st,name,selected[name],prediction)
+                analysis=show_result(st,name,selected[name],prediction)
+                if i<len(names)-1:
+                    if st.button("Save analysis and continue",key=f"continue.{name}",disabled=not analysis.strip(),type="primary"):
+                        st.session_state["mission_1.active_trial"]=names[i+1]
+                        st.session_state["scroll_to_top_pending"]=True
+                        st.rerun()
+                elif analysis.strip():
+                    st.success("All three trial analyses are saved. Complete the two synthesis questions below.")
 
     st.subheader("Compare the three trials")
     st.caption("Use the per-trial tables. For modeled trials, identify the imposed difference rather than attributing it to real sensor noise.")
-    for key,label in (
-        ("model_vs_observation","Which path shapes and heading changes matched your expectations?"),
-        ("largest_error","Which trial had the largest position or heading difference? Name the quantity and cite its value."),
-        ("error_source","Choose one difference. Could motion timing or the odometry estimate explain it? What additional observation would distinguish the two?"),
-        ("twice_distance","At the same straight speed, what distance would you predict for twice the duration? Explain using d = vt.")):
-        answer(st,f"mission_1.{key}",label)
+    answer(st,"mission_1.trial_synthesis",
+           "In one response, compare the three trials. Identify which path shapes and heading changes matched your expectations, cite the largest position or heading difference, propose a possible cause and evidence that could test it, and predict the straight-line distance at the same speed for twice the duration using d = vt.",height=180)
     st.subheader("Motion in a public hallway")
     st.write("Imagine one of these motions happening near a person. Consider predictability, passing distance, and time to react.")
-    for key,label in (("hallway_behavior","Which behavior could confuse or discomfort someone nearby, and why?"),
-                      ("hallway_change","Which motion parameter would you change around people, and what tradeoff would that introduce?"),
-                      ("hallway_criterion","Propose one measurable criterion for acceptable motion around people. State how you would evaluate it.")):
-        answer(st,f"mission_1.{key}",label)
+    answer(st,"mission_1.hallway_analysis",
+           "In one response, identify motion that could confuse or discomfort someone nearby, name a motion parameter you would change and its tradeoff, and propose one measurable criterion for acceptable motion around people with a way to evaluate it.",height=170)
     runs = list(selected.values())
     responses = st.session_state["responses"]
     check=evaluate(runs,responses)

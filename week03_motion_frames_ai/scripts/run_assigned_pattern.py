@@ -20,7 +20,12 @@ def main():
              WEEK03_EVIDENCE_DIR=str(ROOT/'runtime/evidence'))
     process=subprocess.Popen([sys.executable,'-m','week03_pattern.pattern_node','--ros-args','-p',f"pattern:={lock['pattern']}"],
                              env=env,cwd=ROOT,start_new_session=True)
-    try: return process.wait(timeout=80)
+    try:
+        code=process.wait(timeout=80)
+        if code==0:
+            evaluation=subprocess.run([sys.executable,str(ROOT/'scripts/evaluate_ai_pattern.py')],cwd=ROOT,env=env)
+            return evaluation.returncode
+        return code
     except (subprocess.TimeoutExpired,KeyboardInterrupt):
         os.killpg(process.pid,signal.SIGINT)
         try: process.wait(timeout=3)

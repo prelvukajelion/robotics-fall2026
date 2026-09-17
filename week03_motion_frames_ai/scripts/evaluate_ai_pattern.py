@@ -1,5 +1,6 @@
 """Evaluate current source; live verification is reported separately."""
 import importlib
+import ast
 import json
 import os
 from pathlib import Path
@@ -36,6 +37,12 @@ def main():
     except subprocess.TimeoutExpired:
         output='Tests exceeded 30 seconds. Check for an infinite loop.'; passed=False
     match=re.search(r'Ran (\d+) tests?',output); count=int(match.group(1)) if match else 0
+    student_file=PACKAGE/'test/test_student_pattern.py';student_count=0
+    if student_file.exists():
+        try:
+            tree=ast.parse(student_file.read_text(encoding='utf-8'))
+            student_count=sum(isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)) and node.name.startswith('test_') for node in ast.walk(tree))
+        except (OSError,SyntaxError): pass
     bounded=shape=stop=False; pose={}
     try:
         worker=subprocess.run([sys.executable,__file__,'--model',name],capture_output=True,text=True,timeout=10)
@@ -55,8 +62,10 @@ def main():
               and run.get('pattern')==name and run.get('source_sha256')==signature)
     original=ROOT/'student_submission/mission_3/ai/original_source.py'
     changed=original.exists() and original.read_text(encoding='utf-8').strip()!=(PACKAGE/'week03_pattern/pattern.py').read_text(encoding='utf-8').strip()
+    implementation=PACKAGE/'week03_pattern/pattern.py'
     payload={'captured_at':datetime.now(timezone.utc).isoformat(),'pattern':name,
              'source_sha256':signature,'unit_tests_passed':passed,'test_count':count,'unit_test_output':output,
+             'implementation_present':implementation.exists(),'student_test_file_present':student_file.exists(),'student_test_count':student_count,
              'commands_bounded':bounded,'shape_check_passed':shape,'model_stop_passed':stop,
              'predicted_endpoint':pose,'integration_passed':live,'final_stop_verified':live,
              'source_differs_from_original':changed,'live_run':run}

@@ -40,10 +40,23 @@ Alternatively select **Run live preflight checks** in the guide. Checks cover pa
 ## Learning sequence
 
 1. Five visual walkthroughs introduce commands, wheels, frames, prediction/measurement, and AI code review. Try the examples and mark each reviewed.
-2. Mission 1: predict straight motion, turn-then-drive, and an arc. Upload a turn-then-drive sketch; run and compare each trial; evaluate motion in a public hallway.
-3. Mission 2: select live or reference frame evidence, transform a point in a fixed scene, diagnose a wrong-frame destination, and propose a safeguard and test.
+2. Mission 1: predict straight motion, turn-then-drive, and an arc in radians. Draw the turn-then-drive path in the guide, run and analyze each trial, compare all three, and evaluate motion in a public hallway.
+3. Mission 2: reuse robot/sensor frame evidence, preserve and inspect an underspecified AI response, revise a hallway-camera-to-robot transform, and run five supplied tests.
 4. Mission 3: save a specification before prompting, preserve original AI response and code, review and revise the implementation, and test it.
-5. Write a 100–150 word technical synthesis and the standardized [personal reflection](../FINAL_REFLECTION.md) of 1–300 words.
+5. Write a 100 to 150 word technical synthesis and the standardized [personal reflection](../FINAL_REFLECTION.md) of 1 to 300 words.
+
+## Mission 2 camera-transform files and commands
+
+Preserve the first AI response in the guide. Revise `ros2_ws/src/week03_camera_transform/week03_camera_transform/camera_transform.py`, then run:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+cd /workspace/week03_motion_frames_ai
+python3 scripts/evaluate_camera_transform.py
+python3 scripts/evaluate_camera_transform.py --live
+```
+
+The first command tests the code without moving the robot. The second also checks the current `hall_camera` to `base_link` transform.
 
 ## Mission 3 files and commands
 
@@ -65,10 +78,9 @@ source install/setup.bash
 export ROS_DOMAIN_ID=25
 cd ..
 python3 scripts/run_assigned_pattern.py
-python3 scripts/evaluate_ai_pattern.py
 ```
 
-Source or test changes require a fresh evaluation and live run. Interruption tests are recorded separately; complete another full run afterward for current live completion evidence.
+The live runner refreshes the evaluation report after a complete run. Source or test changes require a fresh evaluation and live run. Interruption tests are recorded separately; complete another full run afterward for current live completion evidence.
 
 ## Saving and recovery
 
@@ -77,7 +89,7 @@ Source or test changes require a fresh evaluation and live run. Interruption tes
 - Use the sidebar to revisit opened sections. After edits, check and save the affected mission again.
 - If Docker pauses or the browser disconnects, copy unsent text before refreshing. Resume Docker and reconnect. Work in one guide tab.
 - A failed Mission 1 run retains the prediction. Retry or select labeled modeled evidence. The model uses 92% translation and 93% rotation; these are imposed differences, not measured errors.
-- Mission 2 offers labeled reference evidence if frame capture fails. Its calculation scene is separate from the live snapshot.
+- Mission 2 offers labeled reference frame evidence if capture fails. Its five code tests must still pass. If the live transform cannot run, document what remains unverified.
 - Mission 3 requires passing code/model tests. If ROS cannot complete, document pending live verification; the report does not claim a successful live run.
 - Failed resets do not erase answers. Stop the simulator launch with Ctrl+C and relaunch before retrying live motion.
 
@@ -89,7 +101,7 @@ On your computer, from the repository root:
 
 ```bash
 git status
-git add week03_motion_frames_ai/student_submission week03_motion_frames_ai/ros2_ws/src/week03_pattern
+git add week03_motion_frames_ai/student_submission week03_motion_frames_ai/ros2_ws/src/week03_pattern week03_motion_frames_ai/ros2_ws/src/week03_camera_transform
 git commit -m "Submit Lab 3"
 git push
 ```

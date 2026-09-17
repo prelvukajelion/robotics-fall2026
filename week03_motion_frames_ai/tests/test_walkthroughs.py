@@ -29,3 +29,5 @@ class WalkthroughModels(unittest.TestCase):
         self.assertEqual(forward_command(3), (0, 0))
         with self.assertRaises(ValueError):
             forward_command(0, .3)
+        with self.assertRaises(ValueError):
+            forward_command(0, duration=-1)

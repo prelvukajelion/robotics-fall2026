@@ -19,11 +19,14 @@ class MissionTests(unittest.TestCase):
     def test_frame_gate(self):
         from lab.frame_learning import reference_snapshot
         snapshot=reference_snapshot()
-        responses={"mission_2.point_answer":{"x":0.,"y":-1.},"mission_2.compared":True,"mission_2.wrong_viewed":True,
-                   **{f"mission_2.{key}":"Explanation" for key in m2.REFLECTIONS}}
-        self.assertTrue(m2.evaluate(snapshot,responses).passed)
-        responses["mission_2.point_answer"]={"x":2.,"y":1.}
-        self.assertFalse(m2.evaluate(snapshot,responses).passed)
+        responses={"mission_2.snapshot":snapshot,**{f"mission_2.{key}":"Explanation" for key in m2.REFLECTIONS}}
+        with tempfile.TemporaryDirectory() as directory:
+            source=Path(directory)/"camera_transform.py";source.write_text("# revised")
+            lock={"integrity_valid":True};result={"file_present":True,"source_sha256":m2.current_hash(source),
+                "unit_tests_passed":True,"test_count":5,"source_differs_from_original":True,"live_passed":True}
+            self.assertTrue(m2.evaluate(result,lock,responses,source).passed)
+            result["test_count"]=4
+            self.assertFalse(m2.evaluate(result,lock,responses,source).passed)
     def test_ai_gate(self):
         lock={"pattern":"l_path","locked_at":"now","prompt_sha256":"a","output_sha256":"b","integrity_valid":True}; result={"pattern":"l_path","unit_tests_passed":True,"integration_passed":True,"commands_bounded":True,"final_stop_verified":True,"source_differs_from_original":True,"test_count":7}; responses={f"mission_3.{key}":"Substantive evidence-based individual analysis. "*3 for key in m3.REFLECTIONS}
         with tempfile.TemporaryDirectory() as directory:
@@ -31,7 +34,8 @@ class MissionTests(unittest.TestCase):
             for relative in ("week03_pattern/pattern.py","week03_pattern/pattern_node.py","test/test_student_pattern.py"):
                 path=root/relative; path.parent.mkdir(parents=True,exist_ok=True); path.write_text("# source\n"+"x=1\n"*40,encoding="utf-8")
             lock['source_sha256']='original'
-            result.update(source_sha256=m3.current_hash(root),shape_check_passed=True,model_stop_passed=True,test_count=9)
+            result.update(source_sha256=m3.current_hash(root),shape_check_passed=True,model_stop_passed=True,test_count=9,
+                          implementation_present=True,student_test_file_present=True,student_test_count=2)
             self.assertTrue(m3.evaluate(result,lock,responses,root).passed)
             result['final_stop_verified']=False
             self.assertFalse(m3.evaluate(result,lock,responses,root).passed)

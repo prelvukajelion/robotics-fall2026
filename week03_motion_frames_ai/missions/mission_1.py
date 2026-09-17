@@ -3,8 +3,7 @@ import math
 from lab.models import RequirementResult, make_check
 from simulation.kinematics import SEQUENCES
 
-REFLECTIONS = ("model_vs_observation", "largest_error", "error_source", "twice_distance",
-               "hallway_behavior", "hallway_change", "hallway_criterion")
+REFLECTIONS = ("trial_synthesis", "hallway_analysis")
 
 
 def valid_run(run, prediction):
@@ -44,7 +43,7 @@ def evaluate(runs, responses):
         RequirementResult("sketch", "Turn-then-drive prediction sketch saved", sketch, "saved" if sketch else "missing", "saved"),
         RequirementResult("runs", "Three matched live or modeled results", completed==3, completed, "3"),
         RequirementResult("comparisons", "Each trial has a discrepancy explanation", comparisons==3, comparisons, "3"),
-        RequirementResult("reflection", "Motion and public-hallway analysis complete", reflections, "complete" if reflections else "unfinished", "complete"),
+        RequirementResult("reflection", "Trial comparison and public-hallway analysis complete", reflections, "complete" if reflections else "unfinished", "complete"),
     ]
     summary = "You compared motion predictions with evidence."
     if models:

@@ -12,9 +12,9 @@ progress{width:100%;accent-color:#087f80;height:12px}#status{min-height:24px}sma
 (()=>{
 const p=__PAYLOAD__, canvas=document.getElementById('scene'),ctx=canvas.getContext('2d');
 const status=document.getElementById('status'), bar=document.getElementById('progress');
-const isFrames=p.mode==='frames';
-document.getElementById('title').textContent=isFrames?'One target, several coordinate frames':'Top view • browser motion model';
-document.getElementById('legend').textContent=isFrames?'Grid spacing: 0.5 m • Red: x • Blue: y • Purple: sensor axes • Orange: target':'Grid spacing: 0.5 m • Forward arrow follows robot +x • L/R identify wheels';
+const isFrames=p.mode==='frames'||p.mode==='robot_frames', robotFrames=p.mode==='robot_frames';
+document.getElementById('title').textContent=robotFrames?'One object, three robot-attached frames':(isFrames?'One target, several coordinate frames':'Top view • browser motion model');
+document.getElementById('legend').textContent=robotFrames?'Red and blue: body axes • Purple: LiDAR axes • Green: rear-camera axes • Orange: object':(isFrames?'Grid spacing: 0.5 m • Red: x • Blue: y • Purple: sensor axes • Orange: target':'Grid spacing: 0.5 m • Forward arrow follows robot +x • L/R identify wheels');
 let width=700,height=310,start=null,paused=false,elapsed=0,last=null;
 const samples=p.samples||[[0,0,0]], duration=p.duration||0;
 const extent=isFrames?3:Math.max(1.35,...samples.map(a=>Math.max(Math.abs(a[0]),Math.abs(a[1]))+.4));
@@ -35,8 +35,16 @@ function robot(x,y,a,t){const q=screen(x,y);ctx.save();ctx.translate(...q);ctx.r
  const l=screen(x-.29*Math.sin(a),y+.29*Math.cos(a)),r=screen(x+.29*Math.sin(a),y-.29*Math.cos(a));text('L',l[0]-4,l[1]);text('R',r[0]-4,r[1]);
 }
 function draw(t){ctx.clearRect(0,0,width,height);ctx.fillStyle='#f4f9fc';ctx.fillRect(0,0,width,height);
- const low=isFrames?-.5:-extent,high=isFrames?3:extent;
+ const low=robotFrames?-1.7:(isFrames?-.5:-extent),high=robotFrames?1.7:(isFrames?3:extent);
  for(let g=Math.ceil(low*2)/2;g<=high;g+=.5){line(screen(g,low),screen(g,high));line(screen(low,g),screen(high,g));}
+ if(robotFrames){
+  robot(0,0,0,0);axes(0,0,0,'base_link');
+  axes(.2,0,0,'base_scan','#8643ae');
+  axes(-.18,0,Math.PI,'rear_camera_link','#198754');
+  const camera=screen(-.18,0),f1=screen(-.95,.48),f2=screen(-.95,-.48);ctx.beginPath();ctx.moveTo(...camera);ctx.lineTo(...f1);ctx.lineTo(...f2);ctx.closePath();ctx.fillStyle='rgba(25,135,84,.12)';ctx.fill();ctx.strokeStyle='#198754';ctx.stroke();
+  const q=screen(p.target_x,p.target_y);ctx.fillStyle='#c46708';ctx.beginPath();ctx.arc(...q,7,0,7);ctx.fill();text(`Object in base_link (${p.target_x.toFixed(1)}, ${p.target_y.toFixed(1)})`,q[0]+10,q[1]-8,'#9b4b00');
+  status.textContent='The object stays fixed while each frame supplies a different origin and axis direction.';return;
+ }
  if(isFrames){const a=p.heading*Math.PI/180;axes(0,0,0,'odom');robot(p.x,p.y,a,0);axes(p.x,p.y,a,'');
  const sx=p.x+.2*Math.cos(a),sy=p.y+.2*Math.sin(a);axes(sx,sy,a,'','#8643ae');
  const body=screen(p.x,p.y),sensor=screen(sx,sy);
@@ -53,7 +61,7 @@ function draw(t){ctx.clearRect(0,0,width,height);ctx.fillStyle='#f4f9fc';ctx.fil
  if(duration&&t>=duration)status.textContent+=p.replay?' • Replay finished':' • Finished: zero velocity requested';
 }
 function resize(){width=canvas.clientWidth;canvas.width=width*devicePixelRatio;canvas.height=height*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
- scale=isFrames?Math.min(width/3.8,height/(p.show_wrong?4.2:3.5)):Math.min(width/(2*extent+.5),height/(2*extent+.5));ox=isFrames?width/2-1.1*scale:width/2;oy=isFrames?height/2+1.1*scale:height/2;draw(elapsed)}
+ scale=robotFrames?Math.min(width/3.8,height/3.8):(isFrames?Math.min(width/3.8,height/(p.show_wrong?4.2:3.5)):Math.min(width/(2*extent+.5),height/(2*extent+.5)));ox=robotFrames?width/2:(isFrames?width/2-1.1*scale:width/2);oy=robotFrames?height/2:(isFrames?height/2+1.1*scale:height/2);draw(elapsed)}
 new ResizeObserver(resize).observe(canvas);
 document.getElementById('pause').hidden=isFrames||!duration;bar.hidden=isFrames;
 document.getElementById('pause').onclick=()=>{paused=!paused;document.getElementById('pause').textContent=paused?'Resume animation':'Pause animation';last=null};

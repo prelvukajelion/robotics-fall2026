@@ -26,7 +26,7 @@ def run_smoke_test() -> None:
     from pathlib import Path
     from lab.ai_log import assigned_pattern
     from missions import mission_1 as m1, mission_2 as m2, mission_3 as m3
-    from simulation.kinematics import SEQUENCES, integrate_sequence
+    from simulation.kinematics import SEQUENCES
 
     locked = "2026-08-31T00:00:00+00:00"
     from lab.motion_trials import modeled_trial
@@ -40,13 +40,12 @@ def run_smoke_test() -> None:
     assert m1.evaluate(runs, responses).passed
     from lab.frame_learning import reference_snapshot
     snapshot = reference_snapshot()
-    responses.update({
-        "mission_2.point_answer": {"x":0.,"y":-1.},
-        "mission_2.compared": True,
-        "mission_2.wrong_viewed": True,
-        **{f"mission_2.{key}": "Explanation" for key in m2.REFLECTIONS},
-    })
-    assert m2.evaluate(snapshot, responses).passed
+    responses.update({"mission_2.snapshot":snapshot,**{f"mission_2.{key}": "Explanation" for key in m2.REFLECTIONS}})
+    with tempfile.TemporaryDirectory() as camera_directory:
+        camera_source=Path(camera_directory)/'camera_transform.py';camera_source.write_text('# revised')
+        camera_lock={'integrity_valid':True};camera_result={'file_present':True,'source_sha256':m2.current_hash(camera_source),
+            'unit_tests_passed':True,'test_count':5,'source_differs_from_original':True,'live_passed':True}
+        assert m2.evaluate(camera_result,camera_lock,responses,camera_source).passed
     pattern = assigned_pattern("test-student")
     lock = {"pattern": pattern, "locked_at": locked, "prompt_sha256": "a", "output_sha256": "b", "integrity_valid": True}
     ai_result = {"pattern": pattern, "unit_tests_passed": True, "integration_passed": True, "commands_bounded": True, "final_stop_verified": True, "source_differs_from_original": True, "test_count": 7}
@@ -58,7 +57,8 @@ def run_smoke_test() -> None:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("# source\n" + "value = 1\n" * 30, encoding="utf-8")
         lock['source_sha256']='original'
-        ai_result.update(source_sha256=m3.current_hash(root),shape_check_passed=True,model_stop_passed=True,test_count=9)
+        ai_result.update(source_sha256=m3.current_hash(root),shape_check_passed=True,model_stop_passed=True,test_count=9,
+                         implementation_present=True,student_test_file_present=True,student_test_count=2)
         assert m3.evaluate(ai_result, lock, responses, root).passed
     print("Week 3 lab smoke test passed.")
 

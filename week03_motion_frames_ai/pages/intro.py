@@ -12,8 +12,8 @@ def render(st) -> None:
     st.markdown(
         "You will submit:\n"
         "- Predicted and observed robot poses\n"
-        "- Frame evidence and a worked point transformation\n"
-        "- Original AI prompt and output\n"
+        "- Robot, sensor, and hallway-camera frame evidence\n"
+        "- Original AI prompts and output from the frame and motion missions\n"
         "- Problems found, modifications, tests, and final ROS code\n"
         "- Test conclusions, a short synthesis, and your personal reflection"
     )

@@ -32,7 +32,8 @@ render(st)
                 click('Preserve original AI interaction')
                 lock=load_lock();self.assertTrue(lock['integrity_valid'])
                 result.update(pattern=lock['pattern'],source_sha256=current_hash(source),unit_tests_passed=True,test_count=9,
-                    shape_check_passed=True,commands_bounded=True,model_stop_passed=True,source_differs_from_original=True,integration_passed=False)
+                    shape_check_passed=True,commands_bounded=True,model_stop_passed=True,source_differs_from_original=True,
+                    implementation_present=True,student_test_file_present=True,student_test_count=2,integration_passed=False)
                 for key in REFLECTIONS:
                     app.text_area(key=f'm3.{key}').set_value('Evidence and explanation of this development decision.').run()
                 app.checkbox[0].check().run()
