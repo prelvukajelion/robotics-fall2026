@@ -1,0 +1,193 @@
+{
+  "evidence_id": "c16117a30de0c120",
+  "ai_evaluation": {
+    "captured_at": "2026-09-25T17:05:07.459342+00:00",
+    "pattern": "alternating_arcs",
+    "source_sha256": "9835ea63f1595c4f1c22f543b6663aa397cb7a2f54049974a836b51e9467bde5",
+    "unit_tests_passed": true,
+    "test_count": 9,
+    "unit_test_output": "test_angular_limits (test_pattern.PatternTests.test_angular_limits) ... ok\ntest_linear_limits (test_pattern.PatternTests.test_linear_limits) ... ok\ntest_nonempty (test_pattern.PatternTests.test_nonempty) ... ok\ntest_pattern_contains_motion (test_pattern.PatternTests.test_pattern_contains_motion) ... ok\ntest_pattern_contains_turning (test_pattern.PatternTests.test_pattern_contains_turning) ... ok\ntest_positive_durations (test_pattern.PatternTests.test_positive_durations) ... ok\ntest_segment_types (test_pattern.PatternTests.test_segment_types) ... ok\ntest_my_pattern_geometry (test_student_pattern.MyPatternTests.test_my_pattern_geometry) ... ok\ntest_my_pattern_order (test_student_pattern.MyPatternTests.test_my_pattern_order) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n",
+    "implementation_present": true,
+    "student_test_file_present": true,
+    "student_test_count": 2,
+    "commands_bounded": true,
+    "shape_check_passed": true,
+    "model_stop_passed": true,
+    "predicted_endpoint": {
+      "x": 0.8485281374238569,
+      "y": 0.3514718625761429,
+      "theta": 0.0
+    },
+    "integration_passed": true,
+    "final_stop_verified": true,
+    "source_differs_from_original": true,
+    "live_run": {
+      "captured_at": "2026-09-25T17:05:06.689027+00:00",
+      "pattern": "alternating_arcs",
+      "source_sha256": "9835ea63f1595c4f1c22f543b6663aa397cb7a2f54049974a836b51e9467bde5",
+      "attempt_id": "2361701533914dd49fbad4419f2685d6",
+      "completed": true,
+      "interrupted": false,
+      "error": "",
+      "final_stop_verified": true,
+      "shape_observed": true,
+      "start_pose": {
+        "x": 0.36351582368793167,
+        "y": 0.34961864529784187,
+        "theta": 1.5046616548160991
+      },
+      "end_pose": {
+        "x": 0.11242451110666944,
+        "y": 1.097976819315357,
+        "theta": 1.6730213756786965
+      },
+      "checkpoints": [
+        {
+          "expected": {
+            "x": 0.21213203435596423,
+            "y": 0.08786796564403572,
+            "theta": 0.7853981633974483
+          },
+          "observed": {
+            "x": 0.19749630636446583,
+            "y": 0.08033240286995202,
+            "theta": 0.7508981743551432
+          },
+          "position_error": 0.01646175082314411,
+          "heading_error": 0.03449998904230511
+        },
+        {
+          "expected": {
+            "x": 0.42426406871192845,
+            "y": 0.17573593128807144,
+            "theta": 0.0
+          },
+          "observed": {
+            "x": 0.3949282057028544,
+            "y": 0.1564833409411498,
+            "theta": 0.006378515692750719
+          },
+          "position_error": 0.035089244699103156,
+          "heading_error": 0.006378515692750719
+        },
+        {
+          "expected": {
+            "x": 0.6363961030678926,
+            "y": 0.2636038969321072,
+            "theta": 0.7853981633974483
+          },
+          "observed": {
+            "x": 0.5859330898738538,
+            "y": 0.2324043825802905,
+            "theta": 0.7292804445158616
+          },
+          "position_error": 0.05932895917181547,
+          "heading_error": 0.05611771888158668
+        },
+        {
+          "expected": {
+            "x": 0.8485281374238569,
+            "y": 0.3514718625761429,
+            "theta": 0.0
+          },
+          "observed": {
+            "x": 0.7301284487271957,
+            "y": 0.2999987537171065,
+            "theta": 0.16835972086257933
+          },
+          "position_error": 0.1291044817931604,
+          "heading_error": 0.16835972086257933
+        }
+      ]
+    }
+  },
+  "ai_lock": {
+    "locked_at": "2026-09-25T16:38:44.266199+00:00",
+    "pattern": "alternating_arcs",
+    "specification_sha256": "fda0be11679601edfa032392c0c1344eb6c17be96e0566caceead7c80b58fccb",
+    "prompt_sha256": "ec22ccbe674b0bc45cf6793ecd8438d46b70d891b345e91f420e5e1a9e7a4f45",
+    "output_sha256": "de22d16df6447e841ec42271f10ce9abea902592c5d2be2ea04b92d73d2be61b",
+    "source_sha256": "926627dbf4ae85d8c9989f7ac518601a3b2f8e6df3a4d103d473261967640bf9",
+    "integrity_valid": true
+  },
+  "live_verification_pending": false,
+  "check": [
+    {
+      "id": "original",
+      "label": "Original prompt, response, and source preserved",
+      "passed": true,
+      "actual": "preserved",
+      "expected": "preserved"
+    },
+    {
+      "id": "fresh",
+      "label": "Evaluation matches current source and tests",
+      "passed": true,
+      "actual": "current",
+      "expected": "current"
+    },
+    {
+      "id": "implementation",
+      "label": "pattern.py implementation found",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "id": "wrapper",
+      "label": "Course ROS wrapper found",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "id": "student_file",
+      "label": "Student test file found at required path",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "id": "student_count",
+      "label": "At least two student test methods found",
+      "passed": true,
+      "actual": 2,
+      "expected": ">=2"
+    },
+    {
+      "id": "tests",
+      "label": "Automated tests pass",
+      "passed": true,
+      "actual": 9,
+      "expected": ">=9 passing"
+    },
+    {
+      "id": "pattern",
+      "label": "Assigned geometry and command limits verified",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "id": "revision",
+      "label": "Implementation revised from preserved AI code",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "id": "live",
+      "label": "Live verification completed or explicitly pending",
+      "passed": true,
+      "actual": "verified",
+      "expected": "verified or documented pending"
+    },
+    {
+      "id": "analysis",
+      "label": "Review, tests, and conclusions explained",
+      "passed": true,
+      "actual": "complete",
+      "expected": "complete"
+    }
+  ]
+}

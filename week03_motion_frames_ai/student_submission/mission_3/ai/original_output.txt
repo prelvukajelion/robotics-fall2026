@@ -1,0 +1,30 @@
+The function returns four arc segments: left, right, left, right. Each one uses 0.12 m/s and 0.40 rad/s for about 1.96 s, which gives a 0.30 m radius and a 45° turn. Any name other than alternating_arcs raises a ValueError. It creates no publishers and doesn't touch the wrapper or the course checks.
+
+I checked the math by simulating the path. The robot should pass through these points:
+
+After arc	Position (m)	Heading (rad)
+1 (left)	(0.21, 0.09)	0.785
+2 (right)	(0.42, 0.18)	0
+3 (left)	(0.64, 0.26)	0.785
+4 (right)	(0.85, 0.35)	0
+
+Total time is about 7.9 s, and each arc is about 0.236 m long.
+
+Assumptions
+
+Segment is already defined in pattern.py and accepts linear_x, angular_z, and duration as keyword arguments. That's why the file only contains the function.
+The robot starts at rest at (0, 0) facing +x, and the wrapper runs the segments back to back with no pause between them.
+The math uses the ideal model with instant speed changes. The real robot needs time to speed up and to switch from turning left to turning right, so its real path will come up a little short. That's why the live tolerances are bigger.
+I picked 0.40 rad/s because it's well under the limit and makes each arc last long enough that speed-up time is a small part of it. It's also not so slow that friction becomes a problem.
+The robot ends facing its starting direction because the left and right turns cancel out.
+
+Proposed tests
+
+Calling it with an unknown name like "square" raises ValueError.
+It returns exactly 4 segments.
+Every segment has linear_x between 0 and 0.22, abs(angular_z) at most 0.80, and duration greater than 0 and at most 30. The durations add up to 60 or less.
+Each arc's radius (linear_x / abs(angular_z)) is within 0.02 m of 0.30.
+Each arc's turn (abs(angular_z) * duration) is within 0.04 rad of 0.785, and the turn signs go +, −, +, −.
+Each arc's length (linear_x * duration) is within 0.02 m of 0.236.
+The total heading change adds up to 0 within 0.04 rad.
+Simulating the path gives the checkpoints in the table above and stays inside the 2 m by 2 m area.

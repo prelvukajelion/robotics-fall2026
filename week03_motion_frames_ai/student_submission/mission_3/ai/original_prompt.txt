@@ -1,0 +1,8 @@
+I'm working on a ROS 2 robot motion project. Here is my specification for the path I want the robot to drive:
+
+This is a ROS 2 Jazzy Python package. Implement only build_pattern(pattern_name: str) -> list[Segment] for 'alternating_arcs' in the existing pattern.py.
+The course-provided pattern_node.py calls this function, publishes the returned segments repeatedly through /student_cmd_vel, and sends the final zero command.
+Use the existing Segment class with linear_x (m/s), angular_z (rad/s), and duration (s).
+Return the ordered segments for the assigned specification and raise ValueError for an unknown pattern name.
+Stay within 0.22 m/s, 0.80 rad/s, 30 seconds per segment, and 60 seconds total.
+Do not replace the wrapper or course checks. Explain assumptions and propose tests.

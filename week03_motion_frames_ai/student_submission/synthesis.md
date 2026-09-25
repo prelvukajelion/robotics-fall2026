@@ -1,0 +1,3 @@
+# Technical synthesis
+
+A robot motion program can pass every test and still cause problems once it runs around real people. For example, my alternating arcs pattern passed all 9 tests and the live run, but in a busy hallway the left and right weaving could confuse people walking nearby. Someone might not be able to tell which way the robot is going, and a person using a wheelchair or cane may not be able to move out of the way quickly. The weaving also breaks the usual hallway rule of staying to one side. To evaluate this, I would need more than code tests. I would need to watch the robot in a real hallway with people present, measure how close it gets to them, and ask people, including those with disabilities, whether its motion felt predictable and comfortable.
