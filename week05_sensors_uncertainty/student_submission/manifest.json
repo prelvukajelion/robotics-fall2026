@@ -1,0 +1,34 @@
+{
+  "files": {
+    "autosave/responses.json": "267688036258b7eaba9f14c7df06f257556403500a47b2e813e4ef0b1e75b568",
+    "autosave/responses.md": "5c104689d3348a74953deb94262f0005bfcaafc48cef87564c74aebc1ff1f4f3",
+    "final_reflection.md": "bb834eefa8f0a1e7eb3a43994b54b1ae4fd92e7b27782d6d75c0b12c3b16459f",
+    "final_synthesis.md": "96e4310d1e778f4c137bbe90c88362222bba050e8859a03165e43c71484fcd67",
+    "mission_1/evidence.png": "742c4d8d05d5e7834f881d916089e4be2840ceb5618e9a1f99166a71e6eb7feb",
+    "mission_1/explanation.md": "24b3114e06fcd14e3edf9a20a41e73990b49bcff73aea68c5807c0586a94a72e",
+    "mission_1/measurements.csv": "5b6971d46e1b6685b380d4fac7a8f178bb8fb327b77fc12b46d857c147a77787",
+    "mission_1/submission.json": "35640ab44aae8a021e521392be326d40b24a72272f7e281d2d6baed7fb1ef461",
+    "mission_2/evidence.png": "0c60f18bcf10a6ae50e35d7701f378884cccc99a7661dec73b4068fc73188f42",
+    "mission_2/explanation.md": "340d11a5f87e6f3a732669388f99c0d1479c938da979e201390cd0d9c2c66c88",
+    "mission_2/measurements.csv": "cc839bae07ff5b3ff65935042045146e80e0a608c12406802d133bb2016a4be6",
+    "mission_2/submission.json": "46e6b0a82a48673d7018cede00fc86ed48f02e9926ba6352ab5a46f223db16e0",
+    "mission_3/explanation.md": "8d13636798edf3ab010750186463bff84b708d26407838b8c9309c2cf8024cfd",
+    "mission_3/measurements.csv": "206c1929f1a996523b185dc9799eb1398315d89dfcb328d6d0c61469962b4d6f",
+    "mission_3/submission.json": "8946b9c5df137ea4b6e1e1474dae9e84e265b5b1bd81fb5523786793cfc04118",
+    "student.json": "f17c63aa65d245e1b85a4a85c36b2e8b19bc6c42e1b8dd7f894f5fe12bba6249"
+  },
+  "generated_at": "2026-10-12T02:58:50.536725+00:00",
+  "lab_id": "week05_sensors_uncertainty",
+  "mission_signatures": {
+    "mission_1": "48538ad1273255cc",
+    "mission_2": "579b3e2eb92233f9",
+    "mission_3": "b9d7f7dfb4393b2d"
+  },
+  "response_signature": "c4be39b36167ce52",
+  "schema_version": 2,
+  "student": {
+    "course_id": "CSCI 39536",
+    "email": "elion.prelvukaj38@stu-mail.cuny.edu",
+    "name": "Elion Prelvukaj"
+  }
+}
