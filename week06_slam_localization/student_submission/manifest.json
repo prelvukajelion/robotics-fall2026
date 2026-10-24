@@ -1,0 +1,35 @@
+{
+  "files": {
+    "autosave/responses.json": "f3c37ce5d7c0d5a966aa95fd93dc937cccafa0f5b35b61d980856dbf0dfc1e43",
+    "autosave/responses.md": "15925db6abb9f45f01986527da0d2a521ddc63b1540a6fbdbdc7e5c31d9bc346",
+    "final_reflection.md": "a6a0cbe83fa032fffd7122a31a11c9aa9839298421c2b746851819cfd10bbe64",
+    "final_synthesis.md": "ba94eb5148e60c979c346cc5cfed114094f2d6e59d919825b6f6b8cb84b989c8",
+    "mission_1/analysis.json": "2991183d1f3e6f394016742e1d4627e7d34baa175eccf3d149c9d965641bdad7",
+    "mission_1/evidence.json": "8ab46f81a5814dc1625ac87d825dc6c704914806cd9d354efe0a640f03b55ba4",
+    "mission_1/explanation.md": "265944237f1dafa7362819cd99bf1cf57f366e4f93e6db2ec6c2c7bbbcdca4f1",
+    "mission_1/map.pgm": "016526b80522d207362af6df14c6616d2d31249f73be6d705dc41f5824a93f91",
+    "mission_1/map.yaml": "bc871f95a3534d247e14bc2c1e5dcdcb7d2f6deaa834708457d24cacbbe3e588",
+    "mission_1/rviz_screenshot.png": "9d0421c79c62b09539649b7b6b6e6f9426db911702c4a1544dc65f76ee924f2e",
+    "mission_1/submission.json": "c705c0168766d6a210bd30b4fd9b10aeaf66a1ae4349c65eda5a5c2515735433",
+    "mission_2/analysis.json": "1801f4afcd982c96d30ca27a667cd8c67818bd7694031bd6e18d46bf43e065ea",
+    "mission_2/evidence.json": "cb7655f6fae7aebb98d43c8301f4d76c9260c71e3a087265d3a969b7503aa1e4",
+    "mission_2/explanation.md": "6076a9d73267466c5ea5c36bc2d8f2979b54dedea64db68c559c50f13a1cc2b9",
+    "mission_2/map.pgm": "3d86a7ec84c0bb4bd896c7c8ac1239dfb05a7356d426569624494a37a13c7f20",
+    "mission_2/map.yaml": "3918c73246ef777013c3b17a5a86de6431384c12ca907b9153eccceb9687cc37",
+    "mission_2/rviz_screenshot.png": "b6f0bfde90ec8d9b7997b89fa2488107f6d77df6b3f58994f7501d7383125861",
+    "mission_2/submission.json": "fcbc7bbdfb72d44dd4e73d5f925acd530db03df7184a92db1dbea75ef2c5f704",
+    "student.json": "74e190591a4fe95e09ed22afbe46ecf654ccee1a19a59e60b204f66959f3c8de"
+  },
+  "generated_at": "2026-10-22T19:44:11.909650+00:00",
+  "lab_id": "week06_slam_localization",
+  "mission_signatures": {
+    "mission_1": "8c15666c68b9289d",
+    "mission_2": "69a42f58758c6f6c"
+  },
+  "response_signature": "b05c34a838f73948",
+  "schema_version": 2,
+  "student": {
+    "email": "elion.prelvukaj38@login.cuny.edu",
+    "name": "Elion Prelvukaj"
+  }
+}
