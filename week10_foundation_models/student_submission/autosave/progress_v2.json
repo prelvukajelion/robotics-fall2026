@@ -1,0 +1,70 @@
+{
+  "stage": "final_submission",
+  "responses": {
+    "m1_analysis": "Yes, the revised request improved the response. The model no longer assumed the cup was empty and instead focused on observing it with the camera. The proposed actions fit the robot's capabilities because it can navigate using its wheels and inspect objects with its camera without needing an arm or gripper.",
+    "m2_analysis": "I chose the Identify task. The revised request gave a more detailed answer, but it still got the tool wrong. The model kept calling it a measuring tape, even though it looks more like a drawing compass in the picture. It also mentioned details that I couldn't really see in the image, so the clearer question didn't necessarily make the answer more accurate.",
+    "m3_analysis": "My prompt didn't improve the result much compared to the original prompts. Like the third prompt, the robot reached (1,1) but couldn't get past that point. It made 20 blocked moves and stopped 16 times, compared to 22 blocked moves and 22 stops in the third run. Even with clearer directions, the model kept trying to move into a wall instead of following the route around it. This shows that giving more specific instructions doesn't always mean the robot will follow them correctly.",
+    "final_synthesis": "Throughout these three missions, I learned that getting a model to give a useful response doesn't always mean it will perform the task correctly. In the first mission, making my request more specific helped the model understand what the robot could actually do without assuming things about the cup. In the second mission, the model kept identifying the tool as a measuring tape, even when I asked it to explain what it saw. This showed me that a more detailed answer isn't always a more accurate one. The third mission was probably the most interesting because we could actually see how the robot responded to instructions. Even with a clear route, it kept trying to move into walls and wasted steps stopping. My improved prompt reduced the blocked moves slightly, but the robot still never reached its goal. Overall, I learned that models still struggle with following instructions consistently, even when given enough information.",
+    "final.course_reflection": "This activity made me more interested in how AI can be used in robotics, especially when it comes to controlling a robot and making decisions. I found it interesting how even simple tasks can become difficult when the model doesn't fully understand what it's supposed to do. One thing that stood out to me was the maze experiment. Even after giving the robot specific directions, it still struggled to reach the goal. It showed me how much testing and adjusting goes into robotics, and how important it is to make sure a system actually works rather than just assuming it will."
+  },
+  "student": {
+    "name": "Elion Prelvukaj",
+    "email": "elion.prelvukaj38@login.cuny.edu"
+  },
+  "tutorial_step": 5,
+  "tutorial_reviewed": 6,
+  "controls": {
+    "control_ground_instruction": "Point to the blue cup",
+    "control_demo_step": 3,
+    "control_adapt_choice": "Zero-shot prompting",
+    "control_adapt_instruction": "Move the blue cup to the tray",
+    "control_adapt_scenario": "The request does not identify the intended cup",
+    "control_movement_token": 191,
+    "control_chunk_hz": 20,
+    "control_movement_angle": 0,
+    "control_chunk_size": 6,
+    "control_validate_conf_navigate": 0.9,
+    "control_validate_age_navigate": 0.1,
+    "control_validate_case": "Navigate to the shelf",
+    "control_live_language_runs": [
+      "03a6f5497a7e47b09b8609547e512ab0",
+      "881a466fc4b94a9386aa0916ed308eeb",
+      "3096af687e7044d8907f5acb7115dd8d",
+      "62314797450842ba99bfdc45f3505663"
+    ],
+    "control_live_language_active": "62314797450842ba99bfdc45f3505663",
+    "control_live_language_custom_prompt": "Starting from base, navigate to the shelf, inspect the cup using the camera, and report only what you can observe. Do not assume anything about the cup's contents or attempt to move it.",
+    "control_live_vision_runs": [
+      "ea43b44786214f65b18a6fda22e1716c",
+      "343d2c7209334ee2afb6b99fce1678b8",
+      "d0e15d2477264b129c80184af3407192",
+      "542c7a81c8694ea597d5b1e937ea4e6f"
+    ],
+    "control_live_vision_active": "542c7a81c8694ea597d5b1e937ea4e6f",
+    "control_live_vision_custom_prompt": "Identify the tool in the foreground of the workbench. Describe its visible features and explain what makes you think it is that tool. If you are unsure, say so instead of guessing.",
+    "control_robot_runs": [
+      "696ad8aca73547929c43d1abe5624d10",
+      "2a408589b1d44ae5884adf908d4e28cc",
+      "e9c9228303814763a9351877525b348b",
+      "6557fc0f052a4bbdac7df3986326f950"
+    ],
+    "control_robot_active": "6557fc0f052a4bbdac7df3986326f950",
+    "control_robot_custom_prompt": "Guide the robot from (1,7) to the blue crate at (11,1). Use its current coordinates to follow these steps: First go UP to row 1, then RIGHT to column 7. Next go DOWN to row 7 to get around the second wall. Go RIGHT to column 11, then UP to row 1. Only move in directions that are free, avoid repeating blocked moves, and use STOP once you reach the target."
+  },
+  "guided_version": 4,
+  "guided_seen": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "response_widgets": [
+    "m1_analysis",
+    "m2_analysis",
+    "m3_analysis",
+    "final_synthesis"
+  ],
+  "version": 2
+}

@@ -1,0 +1,162 @@
+{
+  "version": 2,
+  "run_id": "1f79e2bfd7a547fb8930c4c624cc7384",
+  "mission": "mission_2",
+  "saved_at": "2026-11-14T02:29:04.502869+00:00",
+  "settings": {
+    "experiment": "local-live-v2",
+    "model": {
+      "id": "HuggingFaceTB/SmolVLM-500M-Instruct",
+      "revision": "a7da5b986cb59b408707209984f360a5f4ad7e47"
+    }
+  },
+  "rows": [
+    {
+      "job_id": "ea43b44786214f65b18a6fda22e1716c",
+      "kind": "vision",
+      "case": "identify",
+      "prompt": "What tool is lying in the foreground of this workbench?",
+      "phase": "baseline",
+      "parent_id": null,
+      "requested_at": "2026-11-14T02:17:50.091599+00:00",
+      "comparison_ids": [],
+      "output": "Tape measure.",
+      "model": "HuggingFaceTB/SmolVLM-500M-Instruct",
+      "model_revision": "a7da5b986cb59b408707209984f360a5f4ad7e47",
+      "system_prompt": "",
+      "model_input": "What tool is lying in the foreground of this workbench?",
+      "image_sha256": "0c0e4365ce25ec9f22daf3bd4d95883bddd9782289ec17fdb7d2b7c4e8b280ff",
+      "image_preprocessing": {
+        "longest_edge": 512,
+        "image_splitting": false
+      },
+      "generated_tokens": 4,
+      "max_new_tokens": 80,
+      "generation_seconds": 15.912,
+      "truncated": false,
+      "decoding": "greedy",
+      "device": "cpu",
+      "live_inference": true,
+      "library_versions": {
+        "torch": "2.8.0+cpu",
+        "transformers": "4.57.1"
+      },
+      "output_constraint": null,
+      "reused_prefix_tokens": 0,
+      "completed_at": "2026-11-14T02:18:06.110895+00:00"
+    },
+    {
+      "job_id": "343d2c7209334ee2afb6b99fce1678b8",
+      "kind": "vision",
+      "case": "spatial",
+      "prompt": "Where is the black vertical metal post relative to the tool in the foreground?",
+      "phase": "baseline",
+      "parent_id": null,
+      "requested_at": "2026-11-14T02:19:53.566606+00:00",
+      "comparison_ids": [],
+      "output": "The black vertical metal post is to the right of the tool in the foreground.",
+      "model": "HuggingFaceTB/SmolVLM-500M-Instruct",
+      "model_revision": "a7da5b986cb59b408707209984f360a5f4ad7e47",
+      "system_prompt": "",
+      "model_input": "Where is the black vertical metal post relative to the tool in the foreground?",
+      "image_sha256": "0c0e4365ce25ec9f22daf3bd4d95883bddd9782289ec17fdb7d2b7c4e8b280ff",
+      "image_preprocessing": {
+        "longest_edge": 512,
+        "image_splitting": false
+      },
+      "generated_tokens": 17,
+      "max_new_tokens": 80,
+      "generation_seconds": 6.93,
+      "truncated": false,
+      "decoding": "greedy",
+      "device": "cpu",
+      "live_inference": true,
+      "library_versions": {
+        "torch": "2.8.0+cpu",
+        "transformers": "4.57.1"
+      },
+      "output_constraint": null,
+      "reused_prefix_tokens": 0,
+      "completed_at": "2026-11-14T02:20:00.718274+00:00"
+    },
+    {
+      "job_id": "d0e15d2477264b129c80184af3407192",
+      "kind": "vision",
+      "case": "purpose",
+      "prompt": "A robot needs the correct tool for its task. Which object in this image should it pick up?",
+      "phase": "baseline",
+      "parent_id": null,
+      "requested_at": "2026-11-14T02:20:02.281671+00:00",
+      "comparison_ids": [],
+      "output": "The robot needs the correct tool for its task. The correct tool is a measuring tape.",
+      "model": "HuggingFaceTB/SmolVLM-500M-Instruct",
+      "model_revision": "a7da5b986cb59b408707209984f360a5f4ad7e47",
+      "system_prompt": "",
+      "model_input": "A robot needs the correct tool for its task. Which object in this image should it pick up?",
+      "image_sha256": "0c0e4365ce25ec9f22daf3bd4d95883bddd9782289ec17fdb7d2b7c4e8b280ff",
+      "image_preprocessing": {
+        "longest_edge": 512,
+        "image_splitting": false
+      },
+      "generated_tokens": 19,
+      "max_new_tokens": 80,
+      "generation_seconds": 5.141,
+      "truncated": false,
+      "decoding": "greedy",
+      "device": "cpu",
+      "live_inference": true,
+      "library_versions": {
+        "torch": "2.8.0+cpu",
+        "transformers": "4.57.1"
+      },
+      "output_constraint": null,
+      "reused_prefix_tokens": 0,
+      "completed_at": "2026-11-14T02:20:07.511184+00:00"
+    },
+    {
+      "job_id": "542c7a81c8694ea597d5b1e937ea4e6f",
+      "kind": "vision",
+      "case": "custom",
+      "prompt": "Identify the tool in the foreground of the workbench. Describe its visible features and explain what makes you think it is that tool. If you are unsure, say so instead of guessing.",
+      "phase": "custom",
+      "parent_id": null,
+      "requested_at": "2026-11-14T02:21:59.582013+00:00",
+      "comparison_ids": [
+        "ea43b44786214f65b18a6fda22e1716c",
+        "343d2c7209334ee2afb6b99fce1678b8",
+        "d0e15d2477264b129c80184af3407192"
+      ],
+      "output": "There is a measuring tape in the foreground of the workbench. The measuring tape is black and has a metal ring at the end. The ring is attached to a black pole. The measuring tape is marked with measurements in both feet and yards.",
+      "model": "HuggingFaceTB/SmolVLM-500M-Instruct",
+      "model_revision": "a7da5b986cb59b408707209984f360a5f4ad7e47",
+      "system_prompt": "",
+      "model_input": "Identify the tool in the foreground of the workbench. Describe its visible features and explain what makes you think it is that tool. If you are unsure, say so instead of guessing.",
+      "image_sha256": "0c0e4365ce25ec9f22daf3bd4d95883bddd9782289ec17fdb7d2b7c4e8b280ff",
+      "image_preprocessing": {
+        "longest_edge": 512,
+        "image_splitting": false
+      },
+      "generated_tokens": 50,
+      "max_new_tokens": 80,
+      "generation_seconds": 11.022,
+      "truncated": false,
+      "decoding": "greedy",
+      "device": "cpu",
+      "live_inference": true,
+      "library_versions": {
+        "torch": "2.8.0+cpu",
+        "transformers": "4.57.1"
+      },
+      "output_constraint": null,
+      "reused_prefix_tokens": 0,
+      "completed_at": "2026-11-14T02:22:10.775176+00:00"
+    }
+  ],
+  "responses": {
+    "analysis": "I chose the Identify task. The revised request gave a more detailed answer, but it still got the tool wrong. The model kept calling it a measuring tape, even though it looks more like a drawing compass in the picture. It also mentioned details that I couldn't really see in the image, so the clearer question didn't necessarily make the answer more accurate."
+  },
+  "extra": {
+    "draft_signature": "086a4dbadcd18be4deb366f232016063fbb8d68cf257a3501e93dcc1ef30ba2e",
+    "upstream_run": "ba1fe7c351d847dcbe1c6500c0040ade"
+  }
+}

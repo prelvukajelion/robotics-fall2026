@@ -1,0 +1,29 @@
+{
+  "job_id": "6557fc0f052a4bbdac7df3986326f950",
+  "kind": "language",
+  "case": "custom",
+  "prompt": "Guide the robot from (1,7) to the blue crate at (11,1). Use its current coordinates to follow these steps: First go UP to row 1, then RIGHT to column 7. Next go DOWN to row 7 to get around the second wall. Go RIGHT to column 11, then UP to row 1. Only move in directions that are free, avoid repeating blocked moves, and use STOP once you reach the target.",
+  "phase": "custom",
+  "parent_id": null,
+  "requested_at": "2026-11-14T02:35:00.826143+00:00",
+  "comparison_ids": [
+    "696ad8aca73547929c43d1abe5624d10",
+    "2a408589b1d44ae5884adf908d4e28cc",
+    "e9c9228303814763a9351877525b348b"
+  ],
+  "task": "robot",
+  "robot_state": {
+    "position": [
+      1,
+      7
+    ],
+    "step": 0,
+    "history": [],
+    "finished": false,
+    "goal_reached": false,
+    "first_goal_step": null,
+    "last_feedback": "No previous action.",
+    "last_decision": null
+  },
+  "simulator_contract": "8da30a943bd97ee39237aa05e8e6800fecdecbef3ce692d7d4e48f851679060f"
+}

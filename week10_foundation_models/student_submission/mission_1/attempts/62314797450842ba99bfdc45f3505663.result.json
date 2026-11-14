@@ -1,0 +1,38 @@
+{
+  "status": "complete",
+  "record": {
+    "job_id": "62314797450842ba99bfdc45f3505663",
+    "kind": "language",
+    "case": "custom",
+    "prompt": "Starting from base, navigate to the shelf, inspect the cup using the camera, and report only what you can observe. Do not assume anything about the cup's contents or attempt to move it.",
+    "phase": "custom",
+    "parent_id": null,
+    "requested_at": "2026-11-14T02:16:52.845763+00:00",
+    "comparison_ids": [
+      "03a6f5497a7e47b09b8609547e512ab0",
+      "881a466fc4b94a9386aa0916ed308eeb",
+      "3096af687e7044d8907f5acb7115dd8d"
+    ],
+    "output": "To navigate to the shelf, the robot can use the camera to identify the shelf and then use the wheels to move towards it. Once at the shelf, the robot can inspect the cup using the camera and report only what it can observe.",
+    "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+    "model_revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "system_prompt": "You are helping a mobile robot. It starts at base. It can navigate to base, shelf or desk, inspect a known object, report observations, or stop. There is a cup on the shelf and a book on the desk. The robot has a camera and wheels but no arm or gripper. It cannot pick up or carry objects. Suggest a short plan using only these capabilities. If information is missing, ask a specific clarification question. If the task is impossible for this robot, explain why. Use at most four short sentences.",
+    "model_input": "Starting from base, navigate to the shelf, inspect the cup using the camera, and report only what you can observe. Do not assume anything about the cup's contents or attempt to move it.",
+    "image_sha256": null,
+    "image_preprocessing": null,
+    "generated_tokens": 49,
+    "max_new_tokens": 96,
+    "generation_seconds": 8.953,
+    "truncated": false,
+    "decoding": "greedy",
+    "device": "cpu",
+    "live_inference": true,
+    "library_versions": {
+      "torch": "2.8.0+cpu",
+      "transformers": "4.57.1"
+    },
+    "output_constraint": null,
+    "reused_prefix_tokens": 0,
+    "completed_at": "2026-11-14T02:17:01.929863+00:00"
+  }
+}
