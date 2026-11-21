@@ -1,0 +1,6 @@
+{
+  "case": "clear",
+  "phase": "WAIT_READY",
+  "message": "I've arrived with your {target} cup. Is this a good position for the handover? Select Ready if it is, or Cancel if you need me to stop.",
+  "rationale": "When the robot reaches the handover point, it waits for the person to select Ready. I wanted to improve this by letting the person check the robot's position first. The robot might not always stop in a convenient spot, so this gives the person more control over whether the handover continues."
+}

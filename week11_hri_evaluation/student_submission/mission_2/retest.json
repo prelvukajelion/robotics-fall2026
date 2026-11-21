@@ -1,0 +1,713 @@
+{
+  "state": {
+    "mode": "Shared autonomy with voice",
+    "scenario": "clear",
+    "phase": "CANCELLED",
+    "position": 0,
+    "target": "blue",
+    "held": "blue",
+    "delivered": null,
+    "confirmed": false,
+    "checkpoint_seen": false,
+    "waiting_for_change": false,
+    "ros": true
+  },
+  "events": [
+    {
+      "seconds": 0,
+      "source": "voice",
+      "intended": "bring me the blue cup",
+      "transcript": "the blue cup",
+      "event": "REQUEST",
+      "target": "blue",
+      "decision": "select",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "IDLE",
+        "position": 0,
+        "target": null,
+        "held": null,
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "CONFIRM",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "I understood blue. Say confirm or correct the cup.",
+      "ros_pose": [
+        1.6959038537180412e-13,
+        -1.9412045600860386e-25,
+        -3.77357228360848e-12
+      ],
+      "ros_distance_m": 0.0
+    },
+    {
+      "seconds": 5.32,
+      "source": "voice",
+      "intended": "confirm",
+      "transcript": "confirm",
+      "event": "REVIEW",
+      "target": null,
+      "decision": "review",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "CONFIRM",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "CONFIRM",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Review the recognized permission before applying it. I understood blue. Say confirm or correct the cup.",
+      "ros_pose": [
+        2.543836681697514e-13,
+        -5.401082875616451e-25,
+        -4.364474255259597e-12
+      ],
+      "ros_distance_m": 0.0
+    },
+    {
+      "seconds": 6.15,
+      "source": "approval",
+      "intended": "",
+      "transcript": "",
+      "event": "CONFIRM",
+      "target": null,
+      "decision": "begin",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "CONFIRM",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        2.5438369631849615e-13,
+        -5.401084104161066e-25,
+        -4.364473996028877e-12
+      ],
+      "ros_distance_m": 0.0
+    },
+    {
+      "seconds": 9.8,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 0,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 1,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        0.9045970420362139,
+        -6.193458195819934e-13,
+        -5.408759003231443e-12
+      ],
+      "ros_distance_m": 0.905
+    },
+    {
+      "seconds": 13.75,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 1,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 2,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        1.9018583707107024,
+        -8.388361534107189e-13,
+        -3.4977827866292576e-12
+      ],
+      "ros_distance_m": 1.902
+    },
+    {
+      "seconds": 17.7,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 2,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 3,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        2.902314953058708,
+        -7.177926051086404e-13,
+        -4.5584906380306605e-12
+      ],
+      "ros_distance_m": 2.902
+    },
+    {
+      "seconds": 21.65,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 3,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 4,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        3.902627429706208,
+        -9.794774655473767e-13,
+        -2.8749747484249505e-12
+      ],
+      "ros_distance_m": 3.903
+    },
+    {
+      "seconds": 25.7,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 4,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 5,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        4.904549586775742,
+        -7.710796898776655e-13,
+        -3.5991341568214865e-12
+      ],
+      "ros_distance_m": 4.905
+    },
+    {
+      "seconds": 25.95,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 5,
+        "target": "blue",
+        "held": null,
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 5,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        4.905352142884425,
+        -7.738815170341776e-13,
+        -1.2839903359694565e-11
+      ],
+      "ros_distance_m": 4.905
+    },
+    {
+      "seconds": 32.25,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 5,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 4,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        4.099307211212902,
+        -0.009379696469977489,
+        3.0532204836226393
+      ],
+      "ros_distance_m": 5.714
+    },
+    {
+      "seconds": 36.2,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 4,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 3,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        3.0995469166505654,
+        0.0008811741490446771,
+        -3.1333575142833845
+      ],
+      "ros_distance_m": 6.714
+    },
+    {
+      "seconds": 40.15,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 3,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 2,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        2.099471093726853,
+        -8.110397801029715e-05,
+        3.1408346536807823
+      ],
+      "ros_distance_m": 7.715
+    },
+    {
+      "seconds": 44.1,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 2,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 1,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        1.0981589830210148,
+        7.405669380520479e-06,
+        -3.1415224033692124
+      ],
+      "ros_distance_m": 8.716
+    },
+    {
+      "seconds": 48.1,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 1,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 0,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Retrieving the blue cup. You can cancel.",
+      "ros_pose": [
+        0.09576712652859538,
+        -6.759021449139226e-07,
+        3.141586061882346
+      ],
+      "ros_distance_m": 9.718
+    },
+    {
+      "seconds": 48.4,
+      "source": "simulation",
+      "intended": "",
+      "transcript": "",
+      "event": "TICK",
+      "target": null,
+      "decision": "advance",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "EXECUTING",
+        "position": 0,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "WAIT_READY",
+        "position": 0,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "I've arrived with your blue cup. Is this a good position for the handover? Select Ready if it is, or Cancel if you need me to stop.",
+      "ros_pose": [
+        0.09512298880225875,
+        -6.716538769005707e-07,
+        3.1415860569347998
+      ],
+      "ros_distance_m": 9.719
+    },
+    {
+      "seconds": 55.16,
+      "source": "control",
+      "intended": "",
+      "transcript": "",
+      "event": "STOP",
+      "target": null,
+      "decision": "cancel",
+      "before": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "WAIT_READY",
+        "position": 0,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": true,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "after": {
+        "mode": "Shared autonomy with voice",
+        "scenario": "clear",
+        "phase": "CANCELLED",
+        "position": 0,
+        "target": "blue",
+        "held": "blue",
+        "delivered": null,
+        "confirmed": false,
+        "checkpoint_seen": false,
+        "waiting_for_change": false,
+        "ros": true
+      },
+      "feedback": "Cancelled. The robot has stopped.",
+      "ros_pose": [
+        0.095122989208103,
+        -6.716538795772225e-07,
+        3.14158605970617
+      ],
+      "ros_distance_m": 9.719
+    }
+  ],
+  "start": 1795235429.1311164,
+  "finished": 1795235489.8820102,
+  "opened": 1795235418.1338713,
+  "entered": 1795235484.288068,
+  "redesign": {
+    "case": "clear",
+    "phase": "WAIT_READY",
+    "message": "I've arrived with your {target} cup. Is this a good position for the handover? Select Ready if it is, or Cancel if you need me to stop.",
+    "rationale": "When the robot reaches the handover point, it waits for the person to select Ready. I wanted to improve this by letting the person check the robot's position first. The robot might not always stop in a convenient spot, so this gives the person more control over whether the handover continues."
+  },
+  "ros": {
+    "pose": [
+      0.095122989208103,
+      -6.716538795772225e-07,
+      3.14158605970617
+    ],
+    "distance_m": 9.719,
+    "topic": "/odom",
+    "backend": "ROS 2 / Gazebo"
+  },
+  "outcome": "Cancelled",
+  "elapsed": 71.7,
+  "controller_elapsed": 60.8,
+  "inputs": 4
+}

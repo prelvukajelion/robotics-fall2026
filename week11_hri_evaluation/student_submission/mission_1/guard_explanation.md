@@ -1,0 +1,1 @@
+The cancel guard makes sure the robot stops its current task when a CANCEL event happens. In the cancel while moving trace, the robot enters CANCELLED, and later TICK events keep it there instead of continuing movement.

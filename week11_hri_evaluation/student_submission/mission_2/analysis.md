@@ -1,0 +1,1 @@
+In the baseline, the robot only asked if I was ready to receive the cup. In the retest, it also asked if its position was okay for the handover. This made the feedback clearer and gave the person a chance to check the robot's position before continuing.
